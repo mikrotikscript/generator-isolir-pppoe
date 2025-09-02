@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Halaman Isolir PPPoE</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS untuk tampilan halaman */
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ffffff;
+            --gray-color: #f4f7f9;
+            --border-color: #dfe6e9;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--gray-color);
+            color: var(--dark-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--light-color);
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--dark-color);
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        
+        input:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 14px 20px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        #generateBtn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        #generateBtn:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        #downloadHtmlBtn {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        #downloadHtmlBtn:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+        }
+
+        #downloadHtmlBtn:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .output-section {
+            margin-top: 40px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+
+        h2 {
+            color: var(--dark-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        pre {
+            background-color: #2d3436;
+            color: #f1f1f1;
+            padding: 20px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            position: relative;
+        }
+        
+        #preview-container {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        #copyBtn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #636e72;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        #copyBtn:hover {
+            background-color: #b2bec3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Generator Halaman Isolir PPPoE</h1>
+
+        <form id="generatorForm" onsubmit="event.preventDefault(); generate();">
+            <div class="form-group">
+                <label for="rosVersion">Versi RouterOS</label>
+                <select id="rosVersion" name="rosVersion">
+                    <option value="v7">Versi 7.x</option>
+                    <option value="v6">Versi 6.x</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="businessName">Nama Usaha (Contoh: JAYA NET)</label>
+                <input type="text" id="businessName" placeholder="Masukkan nama usaha Anda" required>
+            </div>
+            <div class="form-group">
+                <label for="ipNetwork">IP Gateway Router (Contoh: 192.168.88.1)</label>
+                <input type="text" id="ipGateway" placeholder="192.168.88.1" required>
+            </div>
+            <div class="form-group">
+                <label for="proxyPort">Port Web Proxy</label>
+                <input type="number" id="proxyPort" value="8080" required>
+            </div>
+            <div class="form-group">
+                <label for="dueDate">Tanggal Jatuh Tempo</label>
+                <input type="date" id="dueDate" required>
+            </div>
+            <div class="button-group">
+                <button type="submit" id="generateBtn">Buat Script & Halaman</button>
+                <button type="button" id="downloadHtmlBtn" onclick="downloadHtml()" disabled>Unduh Template HTML</button>
+            </div>
+        </form>
+
+        <div class="output-section" id="outputSection" style="display: none;">
+            <h2>Script untuk MikroTik</h2>
+            <pre>
+                <button id="copyBtn" onclick="copyScript()">Salin</button>
+                <code id="scriptOutput"></code>
+            </pre>
+            
+            <h2>Pratinjau Halaman Isolir</h2>
+            <div id="preview-container">
+                <!-- Pratinjau akan ditampilkan di sini melalui iframe -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variabel global untuk menyimpan konten HTML yang dihasilkan
+        let generatedHtmlContent = '';
+
+        function generate() {
+            // Mengambil nilai dari setiap input form
+            const rosVersion = document.getElementById('rosVersion').value;
+            const businessName = document.getElementById('businessName').value;
+            const ipGateway = document.getElementById('ipGateway').value;
+            const proxyPort = document.getElementById('proxyPort').value;
+            const dueDateValue = document.getElementById('dueDate').value;
+            
+            // Validasi input
+            if (!businessName || !ipGateway || !dueDateValue) {
+                alert('Harap isi semua kolom yang diperlukan.');
+                return;
+            }
+
+            // Format tanggal agar lebih mudah dibaca
+            const dueDate = new Date(dueDateValue).toLocaleDateString('id-ID', {
+                weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            // 1. Menghasilkan template HTML untuk halaman isolir
+            generatedHtmlContent = generateHtmlTemplate(businessName, dueDate);
+            
+            // 2. Menghasilkan skrip untuk MikroTik
+            const mikrotikScript = generateMikrotikScript(rosVersion, businessName, ipGateway, proxyPort);
+
+            // 3. Menampilkan hasil
+            document.getElementById('scriptOutput').textContent = mikrotikScript;
+            document.getElementById('preview-container').innerHTML = `<iframe srcdoc="${generatedHtmlContent.replace(/"/g, '&quot;')}" style="width:100%; height:300px; border:none; border-radius: 8px;"></iframe>`;
+            document.getElementById('outputSection').style.display = 'block';
+
+            // 4. Mengaktifkan tombol unduh
+            document.getElementById('downloadHtmlBtn').disabled = false;
+        }
+
+        function downloadHtml() {
+            if (generatedHtmlContent) {
+                const blob = new Blob([generatedHtmlContent], { type: 'text/html' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'halaman-isolir.html';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function copyScript() {
+            const scriptText = document.getElementById('scriptOutput').textContent;
+            navigator.clipboard.writeText(scriptText).then(() => {
+                const copyButton = document.getElementById('copyBtn');
+                copyButton.textContent = 'Disalin!';
+                setTimeout(() => {
+                    copyButton.textContent = 'Salin';
+                }, 2000);
+            }).catch(err => {
+                console.error('Gagal menyalin script: ', err);
+            });
+        }
+
+        function generateHtmlTemplate(name, date) {
+            return `<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Tagihan Internet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; padding: 15px; }
+        .card { background-color: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; width: 100%; border-top: 5px solid #e74c3c; }
+        .icon { font-size: 50px; }
+        h1 { color: #333; font-size: 24px; margin-top: 15px; margin-bottom: 10px; }
+        p { color: #666; font-size: 16px; line-height: 1.6; }
+        .footer { margin-top: 20px; font-weight: bold; color: #3498db; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="icon">⚠️</div>
+        <h1>Akses Internet Terisolasi</h1>
+        <p>Mohon maaf, layanan internet Anda saat ini diisolasi karena telah melewati batas waktu pembayaran pada tanggal:<br><strong>${date}</strong>.</p>
+        <p>Silakan segera lakukan pembayaran agar dapat menikmati kembali layanan internet kami.</p>
+        <div class="footer">Terima kasih atas perhatiannya,<br/>Manajemen ${name}</div>
+    </div>
+</body>
+</html>`;
+        }
+
+        function generateMikrotikScript(version, name, gateway, port) {
+            const comment = `"${name}-Isolir"`;
+            const addressListName = `"isolir-user"`;
+            const profileName = `"profile-isolir"`;
+
+            if (version === 'v6') {
+                return `/ppp profile
+add name=${profileName} address-list=${addressListName} comment=${comment}
+
+/ip firewall nat
+add action=dst-nat chain=dstnat comment=${comment} disabled=no dst-port=80,443 protocol=tcp src-address-list=${addressListName} to-addresses=${gateway} to-ports=${port}
+
+/ip proxy
+set enabled=yes port=${port}
+/ip proxy access
+add action=deny disabled=no
+# Catatan: Upload file halaman-isolir.html ke folder 'webproxy' di MikroTik Anda.
+# Lalu, buat aturan allow di Web Proxy Access:
+# add action=allow disabled=no dst-host=*.${name.toLowerCase().replace(/\\s+/g, '')}.net
+# (Ganti .net dengan domain Anda jika punya, jika tidak, langkah ini bisa dilewati)
+
+# --- CARA PENGGUNAAN ---
+# 1. Pindahkan user yang sudah jatuh tempo ke profile PPP bernama "profile-isolir".
+# 2. Pastikan file "halaman-isolir.html" sudah diunggah ke Files -> webproxy/.
+# 3. Skrip di atas akan mengarahkan semua traffic HTTP/HTTPS dari user di address list "isolir-user" ke halaman blokir.`;
+            } else { // v7
+                return `/ppp profile
+add name=${profileName} address-list=${addressListName} comment=${comment}
+
+/ip firewall nat
+add action=dst-nat chain=dstnat comment=${comment} disabled=no dst-port=80,443 protocol=tcp src-address-list=${addressListName} to-addresses=${gateway} to-ports=${port}
+
+/ip web-proxy
+set enabled=yes port=${port}
+
+# --- CARA PENGGUNAAN ---
+# 1. Pindahkan user yang sudah jatuh tempo ke profile PPP bernama "profile-isolir".
+# 2. Upload file "halaman-isolir.html" ke Files -> pub/.
+# 3. Buat file bernama "index.html" di folder "pub" dengan isi berikut:
+#    <meta http-equiv="refresh" content="0; url=/halaman-isolir.html" />
+# 4. Skrip di atas akan mengarahkan traffic HTTP/HTTPS dari user di address list "isolir-user" ke halaman blokir.`;
+            }
+        }
+    </script>
+</body>
+</html>
