@@ -3,32 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generator Halaman Isolir PPPoE</title>
+  <title>Generator Halaman Isolir PPPoE & Rule DNS</title>
 
-  <meta name="description" content="Generator Halaman Isolir PPPoE untuk MikroTik. Buat script isolir otomatis, atur nama usaha, gateway, dan proxy. Praktis untuk ISP & RT/RW Net.">
-  <meta name="keywords" content="MikroTik, PPPoE, Isolir, RT RW Net, ISP, Script MikroTik, Generator HTML, RouterOS">
+  <meta name="description" content="Generator Halaman Isolir PPPoE untuk MikroTik dan penyedia rule firewall DNS. Buat script isolir dan DNS otomatis, praktis untuk ISP & RT/RW Net.">
+  <meta name="keywords" content="MikroTik, PPPoE, Isolir, DNS Rule, RT RW Net, ISP, Script MikroTik, Generator HTML, RouterOS, Firewall">
   <meta name="author" content="KARANGGAN HOTSPOT">
 
-  <meta property="og:title" content="Generator Halaman Isolir PPPoE – Cepat & Otomatis!">
-  <meta property="og:description" content="Capek bikin script isolir manual di MikroTik? Gunakan Generator Halaman Isolir PPPoE untuk membuat script & halaman isolir otomatis hanya dengan 1 klik.">
+  <meta property="og:title" content="Generator Halaman Isolir PPPoE & Rule DNS – Cepat & Otomatis!">
+  <meta property="og:description" content="Gunakan Generator untuk membuat script & halaman isolir PPPoE serta mendapatkan rule firewall DNS untuk MikroTik secara otomatis.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://mikrotikscript.github.io/generator-isolir-pppoe/">
 
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Generator Halaman Isolir PPPoE – Cepat & Otomatis!">
-  <meta name="twitter:description" content="Generator Halaman Isolir PPPoE untuk MikroTik. Praktis, otomatis, cocok untuk ISP & RT/RW Net.">
+  <meta name="twitter:title" content="Generator Halaman Isolir PPPoE & Rule DNS – Cepat & Otomatis!">
+  <meta name="twitter:description" content="Generator MikroTik untuk Halaman Isolir PPPoE dan Rule Firewall DNS. Praktis, otomatis, cocok untuk ISP & RT/RW Net.">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generator Halaman Isolir PPPoE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS untuk tampilan halaman */
         :root {
             --primary-color: #007BFF;
             --secondary-color: #28a745;
+            --info-color: #ffc107;
             --dark-color: #343a40;
             --light-color: #ffffff;
             --gray-color: #f8f9fa;
@@ -105,6 +102,17 @@
             margin-top: 30px;
         }
 
+        #showDnsBtn {
+            grid-column: 1 / -1; /* Tombol ini akan mengambil lebar penuh */
+            background-color: var(--info-color);
+            color: var(--dark-color);
+        }
+
+        #showDnsBtn:hover {
+            background-color: #e0a800;
+            transform: translateY(-2px);
+        }
+        
         button {
             padding: 14px 20px;
             font-size: 16px;
@@ -155,6 +163,10 @@
             margin-bottom: 20px;
             font-size: 20px;
         }
+        
+        #dnsRuleSection h2 {
+             border-bottom: 2px solid var(--info-color);
+        }
 
         pre {
             background-color: #2d3436;
@@ -175,7 +187,7 @@
             margin-top: 15px;
         }
 
-        #copyBtn {
+        .copy-button {
             position: absolute;
             top: 10px;
             right: 10px;
@@ -187,7 +199,7 @@
             cursor: pointer;
             font-size: 12px;
         }
-        #copyBtn:hover {
+        .copy-button:hover {
             background-color: #b2bec3;
         }
     </style>
@@ -220,13 +232,14 @@
             <div class="button-group">
                 <button type="submit" id="generateBtn">Buat Script & Halaman</button>
                 <button type="button" id="downloadHtmlBtn" onclick="downloadHtml()" disabled>Unduh Template HTML</button>
+                <button type="button" id="showDnsBtn" onclick="toggleDnsRule()">Tampilkan Rule DNS</button>
             </div>
         </form>
 
         <div class="output-section" id="outputSection" style="display: none;">
             <h2>Script untuk MikroTik</h2>
             <pre>
-                <button id="copyBtn" onclick="copyScript()">Salin</button>
+                <button class="copy-button" id="copyBtn" onclick="copyScript('scriptOutput', 'copyBtn')">Salin</button>
                 <code id="scriptOutput"></code>
             </pre>
             
@@ -234,139 +247,51 @@
             <div id="preview-container">
                 </div>
         </div>
+
+        <div class="output-section" id="dnsRuleSection" style="display: none;">
+            <h2>Rule Firewall untuk Allow DNS (Redirect)</h2>
+            <pre>
+                <button class="copy-button" id="copyDnsBtn" onclick="copyScript('dnsScriptOutput', 'copyDnsBtn')">Salin</button>
+                <code id="dnsScriptOutput">
+# -- Metode Redirect (Paling Direkomendasikan) --
+# Memaksa semua klien menggunakan DNS dari router untuk cache dan kontrol.
+
+# Langkah 1: Alihkan semua permintaan DNS ke router
+/ip firewall nat
+add action=redirect chain=dstnat comment="Redirect DNS ke Router" dst-port=53 protocol=tcp to-ports=53
+add action=redirect chain=dstnat comment="Redirect DNS ke Router" dst-port=53 protocol=udp to-ports=53
+
+# Langkah 2: Izinkan router menerima permintaan DNS dari jaringan lokal
+/ip dns
+set allow-remote-requests=yes
+                </code>
+            </pre>
+        </div>
     </div>
 
     <script>
-        // Variabel global untuk menyimpan konten HTML yang dihasilkan
         let generatedHtmlContent = '';
 
         function generate() {
-            // Mengambil nilai dari setiap input form
             const rosVersion = document.getElementById('rosVersion').value;
             const businessName = document.getElementById('businessName').value;
             const ipGateway = document.getElementById('ipGateway').value;
             const proxyPort = document.getElementById('proxyPort').value;
             
-            // Validasi input
             if (!businessName || !ipGateway) {
                 alert('Harap isi semua kolom yang diperlukan.');
                 return;
             }
 
-            // 1. Menghasilkan template HTML untuk halaman isolir
             generatedHtmlContent = generateHtmlTemplate(businessName);
-            
-            // 2. Menghasilkan skrip untuk MikroTik
             const mikrotikScript = generateMikrotikScript(rosVersion, businessName, ipGateway, proxyPort);
 
-            // 3. Menampilkan hasil
             document.getElementById('scriptOutput').textContent = mikrotikScript;
             document.getElementById('preview-container').innerHTML = `<iframe srcdoc="${generatedHtmlContent.replace(/"/g, '&quot;')}" style="width:100%; height:300px; border:none; border-radius: 8px;"></iframe>`;
             document.getElementById('outputSection').style.display = 'block';
-
-            // 4. Mengaktifkan tombol unduh
             document.getElementById('downloadHtmlBtn').disabled = false;
         }
 
         function downloadHtml() {
             if (generatedHtmlContent) {
-                const blob = new Blob([generatedHtmlContent], { type: 'text/html' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'halaman-isolir.html';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-        }
-
-        function copyScript() {
-            const scriptText = document.getElementById('scriptOutput').textContent;
-            navigator.clipboard.writeText(scriptText).then(() => {
-                const copyButton = document.getElementById('copyBtn');
-                copyButton.textContent = 'Disalin!';
-                setTimeout(() => {
-                    copyButton.textContent = 'Salin';
-                }, 2000);
-            }).catch(err => {
-                console.error('Gagal menyalin script: ', err);
-            });
-        }
-
-        function generateHtmlTemplate(name) {
-            return `<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informasi Tagihan Internet</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-        body { font-family: 'Poppins', sans-serif; background-color: #f0f2f5; margin: 0; display: flex; justify-content: center; align-items: center; height: 100vh; text-align: center; padding: 15px; }
-        .card { background-color: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); max-width: 500px; width: 100%; border-top: 5px solid #e74c3c; }
-        .icon { font-size: 50px; }
-        h1 { color: #333; font-size: 24px; margin-top: 15px; margin-bottom: 10px; }
-        p { color: #666; font-size: 16px; line-height: 1.6; }
-        .footer { margin-top: 20px; font-weight: bold; color: #3498db; }
-    </style>
-</head>
-<body>
-    <div class="card">
-        <div class="icon">⚠️</div>
-        <h1>Akses Internet Terisolasi</h1>
-        <p>Mohon maaf, layanan internet Anda saat ini diisolasi karena tagihan Anda belum terbayar.</p>
-        <p>Silakan segera lakukan pembayaran agar dapat menikmati kembali layanan internet kami.</p>
-        <div class="footer">Terima kasih atas perhatiannya,<br/>Manajemen ${name}</div>
-    </div>
-</body>
-</html>`;
-        }
-
-        function generateMikrotikScript(version, name, gateway, port) {
-            const comment = `"${name}-Isolir"`;
-            const addressListName = `"isolir-user"`;
-            const profileName = `"profile-isolir"`;
-
-            if (version === 'v6') {
-                return `/ppp profile
-add name=${profileName} address-list=${addressListName} comment=${comment}
-
-/ip firewall nat
-add action=dst-nat chain=dstnat comment=${comment} disabled=no dst-port=80,443 protocol=tcp src-address-list=${addressListName} to-addresses=${gateway} to-ports=${port}
-
-/ip proxy
-set enabled=yes port=${port}
-/ip proxy access
-add action=deny disabled=no
-# Catatan: Upload file halaman-isolir.html ke folder 'webproxy' di MikroTik Anda.
-# Lalu, buat aturan allow di Web Proxy Access:
-# add action=allow disabled=no dst-host=*.${name.toLowerCase().replace(/\\s+/g, '')}.net
-# (Ganti .net dengan domain Anda jika punya, jika tidak, langkah ini bisa dilewati)
-
-# --- CARA PENGGUNAAN ---
-# 1. Pindahkan user yang sudah jatuh tempo ke profile PPP bernama "profile-isolir".
-# 2. Pastikan file "halaman-isolir.html" sudah diunggah ke Files -> webproxy/.
-# 3. Skrip di atas akan mengarahkan semua traffic HTTP/HTTPS dari user di address list "isolir-user" ke halaman blokir.`;
-            } else { // v7
-                return `/ppp profile
-add name=${profileName} address-list=${addressListName} comment=${comment}
-
-/ip firewall nat
-add action=dst-nat chain=dstnat comment=${comment} disabled=no dst-port=80,443 protocol=tcp src-address-list=${addressListName} to-addresses=${gateway} to-ports=${port}
-
-/ip web-proxy
-set enabled=yes port=${port}
-
-# --- CARA PENGGUNAAN ---
-# 1. Pindahkan user yang sudah jatuh tempo ke profile PPP bernama "profile-isolir".
-# 2. Upload file "halaman-isolir.html" ke Files -> pub/.
-# 3. Buat file bernama "index.html" di folder "pub" dengan isi berikut:
-#    <meta http-equiv="refresh" content="0; url=/halaman-isolir.html" />
-# 4. Skrip di atas akan mengarahkan traffic HTTP/HTTPS dari user di address list "isolir-user" ke halaman blokir.`;
-            }
-        }
-    </script>
-</body>
-</html>
+                const blob = new Blob([generatedHtmlContent], { type: 'text/html'
