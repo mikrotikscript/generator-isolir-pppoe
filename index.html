@@ -1,297 +1,156 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Generator Halaman Isolir PPPoE & Rule DNS</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Generator Halaman Isolir PPPoE untuk MikroTik. Buat script otomatis dengan preview halaman isolir responsif dan SEO-friendly." />
+  <meta name="keywords" content="PPPoE, MikroTik, Generator Isolir, Web Proxy, Script MikroTik, Error Page" />
+  <meta name="author" content="PPPoE Tools" />
+  <title>Generator Halaman Isolir PPPoE MikroTik</title>
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #f4f6f9; color: #333; }
+    header { background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 20px; text-align: center; }
+    header h1 { margin: 0; font-size: 1.8rem; }
+    header p { margin: 5px 0 0; font-size: 1rem; }
 
-  <meta name="description" content="Generator Halaman Isolir PPPoE untuk MikroTik dan penyedia rule firewall DNS. Buat script isolir dan DNS otomatis, praktis untuk ISP & RT/RW Net.">
-  <meta name="keywords" content="MikroTik, PPPoE, Isolir, DNS Rule, RT RW Net, ISP, Script MikroTik, Generator HTML, RouterOS, Firewall">
-  <meta name="author" content="KARANGGAN HOTSPOT">
+    main { max-width: 1000px; margin: 20px auto; padding: 20px; }
 
-  <meta property="og:title" content="Generator Halaman Isolir PPPoE & Rule DNS – Cepat & Otomatis!">
-  <meta property="og:description" content="Gunakan Generator untuk membuat script & halaman isolir PPPoE serta mendapatkan rule firewall DNS untuk MikroTik secara otomatis.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://mikrotikscript.github.io/generator-isolir-pppoe/">
+    form { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
+    label { display: block; margin-top: 12px; font-weight: 600; }
+    input, select { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
+    button { margin-top: 15px; padding: 12px 24px; border: none; border-radius: 6px; background: #007bff; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s ease; }
+    button:hover { background: #0056b3; }
 
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Generator Halaman Isolir PPPoE & Rule DNS – Cepat & Otomatis!">
-  <meta name="twitter:description" content="Generator MikroTik untuk Halaman Isolir PPPoE dan Rule Firewall DNS. Praktis, otomatis, cocok untuk ISP & RT/RW Net.">
+    .output { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 20px; }
+    textarea { width: 100%; height: 200px; margin-top: 10px; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 0.9rem; }
+    iframe { width: 100%; height: 350px; border: 1px solid #ccc; margin-top: 10px; border-radius: 6px; }
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #007BFF;
-            --secondary-color: #28a745;
-            --info-color: #ffc107;
-            --dark-color: #343a40;
-            --light-color: #ffffff;
-            --gray-color: #f8f9fa;
-            --border-color: #dee2e6;
-        }
+    footer { text-align: center; padding: 15px; background: #f8f9fa; margin-top: 30px; font-size: 0.9rem; color: #666; }
+    footer a { color: #007bff; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to right, #6a11cb, #2575fc);
-            color: var(--dark-color);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 800px;
-            background-color: var(--light-color);
-            padding: 30px 40px;
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            animation: fadeIn 0.5s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        h1 {
-            text-align: center;
-            color: var(--dark-color);
-            margin-bottom: 25px;
-            font-weight: 700;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            color: #555;
-        }
-
-        input[type="text"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 16px;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-        
-        input:focus, select:focus {
-            border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
-            outline: none;
-        }
-
-        .button-group {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        #showDnsBtn {
-            grid-column: 1 / -1; /* Tombol ini akan mengambil lebar penuh */
-            background-color: var(--info-color);
-            color: var(--dark-color);
-        }
-
-        #showDnsBtn:hover {
-            background-color: #e0a800;
-            transform: translateY(-2px);
-        }
-        
-        button {
-            padding: 14px 20px;
-            font-size: 16px;
-            font-weight: 600;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-align: center;
-        }
-
-        #generateBtn {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        #generateBtn:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px);
-        }
-
-        #downloadHtmlBtn {
-            background-color: var(--secondary-color);
-            color: white;
-        }
-        
-        #downloadHtmlBtn:hover {
-            background-color: #218838;
-            transform: translateY(-2px);
-        }
-
-        #downloadHtmlBtn:disabled {
-            background-color: #bdc3c7;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .output-section {
-            margin-top: 40px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
-        }
-
-        h2 {
-            color: var(--dark-color);
-            border-bottom: 2px solid var(--primary-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            font-size: 20px;
-        }
-        
-        #dnsRuleSection h2 {
-             border-bottom: 2px solid var(--info-color);
-        }
-
-        pre {
-            background-color: #2d3436;
-            color: #f1f1f1;
-            padding: 20px;
-            border-radius: 8px;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 14px;
-            position: relative;
-        }
-        
-        #preview-container {
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-top: 15px;
-        }
-
-        .copy-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #636e72;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-        .copy-button:hover {
-            background-color: #b2bec3;
-        }
-    </style>
+    @media (max-width: 768px) {
+      header h1 { font-size: 1.4rem; }
+      button { width: 100%; }
+      iframe { height: 250px; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <h1>Generator Halaman Isolir PPPoE MikroTik</h1>
+    <p>Buat script isolir PPPoE otomatis lengkap dengan halaman isolir responsif</p>
+  </header>
 
-    <div class="container">
-        <h1>Generator Halaman Isolir PPPoE</h1>
+  <main>
+    <form id="generatorForm">
+      <label>Versi ROS
+        <select id="rosVersion">
+          <option value="v6">v6</option>
+          <option value="v7">v7</option>
+        </select>
+      </label>
+      <label>Nama RT/RW Net
+        <input type="text" id="netName" placeholder="Contoh: KARANGGAN HOTSPOT" required />
+      </label>
+      <label>IP Network PPPoE
+        <input type="text" id="pppoeNet" placeholder="172.16.0.1/24" required />
+      </label>
+      <label>Port Web Proxy
+        <input type="number" id="proxyPort" value="8080" />
+      </label>
+      <label>Tanggal Jatuh Tempo
+        <input type="text" id="dueDate" placeholder="20" />
+      </label>
+      <label>Pesan Tambahan
+        <input type="text" id="customMsg" placeholder="Silakan hubungi admin untuk membayar tagihan." />
+      </label>
+      <button type="button" onclick="generateOutput()">Generate Script & Preview</button>
+    </form>
 
-        <form id="generatorForm" onsubmit="event.preventDefault(); generate();">
-            <div class="form-group">
-                <label for="rosVersion">Versi RouterOS</label>
-                <select id="rosVersion" name="rosVersion">
-                    <option value="v7">Versi 7.x</option>
-                    <option value="v6">Versi 6.x</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="businessName">Nama Usaha (Contoh: KARANGGAN HOTSPOT)</label>
-                <input type="text" id="businessName" placeholder="Masukkan nama usaha Anda" required>
-            </div>
-            <div class="form-group">
-                <label for="ipNetwork">IP Gateway Router (Contoh: 192.168.88.1)</label>
-                <input type="text" id="ipGateway" placeholder="192.168.88.1" required>
-            </div>
-            <div class="form-group">
-                <label for="proxyPort">Port Web Proxy</label>
-                <input type="number" id="proxyPort" value="8080" required>
-            </div>
-            <div class="button-group">
-                <button type="submit" id="generateBtn">Buat Script & Halaman</button>
-                <button type="button" id="downloadHtmlBtn" onclick="downloadHtml()" disabled>Unduh Template HTML</button>
-                <button type="button" id="showDnsBtn" onclick="toggleDnsRule()">Tampilkan Rule DNS</button>
-            </div>
-        </form>
-
-        <div class="output-section" id="outputSection" style="display: none;">
-            <h2>Script untuk MikroTik</h2>
-            <pre>
-                <button class="copy-button" id="copyBtn" onclick="copyScript('scriptOutput', 'copyBtn')">Salin</button>
-                <code id="scriptOutput"></code>
-            </pre>
-            
-            <h2>Pratinjau Halaman Isolir</h2>
-            <div id="preview-container">
-                </div>
-        </div>
-
-        <div class="output-section" id="dnsRuleSection" style="display: none;">
-            <h2>Rule Firewall untuk Allow DNS (Redirect)</h2>
-            <pre>
-                <button class="copy-button" id="copyDnsBtn" onclick="copyScript('dnsScriptOutput', 'copyDnsBtn')">Salin</button>
-                <code id="dnsScriptOutput">
-# -- Metode Redirect (Paling Direkomendasikan) --
-# Memaksa semua klien menggunakan DNS dari router untuk cache dan kontrol.
-
-# Langkah 1: Alihkan semua permintaan DNS ke router
-/ip firewall nat
-add action=redirect chain=dstnat comment="Redirect DNS ke Router" dst-port=53 protocol=tcp to-ports=53
-add action=redirect chain=dstnat comment="Redirect DNS ke Router" dst-port=53 protocol=udp to-ports=53
-
-# Langkah 2: Izinkan router menerima permintaan DNS dari jaringan lokal
-/ip dns
-set allow-remote-requests=yes
-                </code>
-            </pre>
-        </div>
+    <div class="output">
+      <h2>Preview Halaman Isolir</h2>
+      <iframe id="previewFrame"></iframe>
     </div>
 
-    <script>
-        let generatedHtmlContent = '';
+    <div class="output">
+      <h2>Script MikroTik</h2>
+      <textarea id="scriptOutput" readonly></textarea>
+      <button onclick="downloadFile('isolir_script.rsc', document.getElementById('scriptOutput').value)">Download Script</button>
+    </div>
 
-        function generate() {
-            const rosVersion = document.getElementById('rosVersion').value;
-            const businessName = document.getElementById('businessName').value;
-            const ipGateway = document.getElementById('ipGateway').value;
-            const proxyPort = document.getElementById('proxyPort').value;
-            
-            if (!businessName || !ipGateway) {
-                alert('Harap isi semua kolom yang diperlukan.');
-                return;
-            }
+    <div class="output">
+      <h2>File error.html</h2>
+      <textarea id="htmlOutput" readonly></textarea>
+      <button onclick="downloadFile('error.html', document.getElementById('htmlOutput').value)">Download error.html</button>
+    </div>
+  </main>
 
-            generatedHtmlContent = generateHtmlTemplate(businessName);
-            const mikrotikScript = generateMikrotikScript(rosVersion, businessName, ipGateway, proxyPort);
+  <footer>
+    <p>&copy; 2025 Generator Isolir PPPoE. Dibuat untuk ISP & RT/RW Net | <a href="#">Tutorial</a></p>
+  </footer>
 
-            document.getElementById('scriptOutput').textContent = mikrotikScript;
-            document.getElementById('preview-container').innerHTML = `<iframe srcdoc="${generatedHtmlContent.replace(/"/g, '&quot;')}" style="width:100%; height:300px; border:none; border-radius: 8px;"></iframe>`;
-            document.getElementById('outputSection').style.display = 'block';
-            document.getElementById('downloadHtmlBtn').disabled = false;
-        }
+  <script>
+    function generateOutput(){
+      const rosVersion = document.getElementById('rosVersion').value;
+      const netName = document.getElementById('netName').value;
+      const pppoeNet = document.getElementById('pppoeNet').value;
+      const proxyPort = document.getElementById('proxyPort').value;
+      const dueDate = document.getElementById('dueDate').value;
+      const customMsg = document.getElementById('customMsg').value;
 
-        function downloadHtml() {
-            if (generatedHtmlContent) {
-                const blob = new Blob([generatedHtmlContent], { type: 'text/html'
+      const htmlContent = `<!DOCTYPE html>
+<html lang=\"id\">
+<head>
+<meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
+<title>Internet Terisolir</title>
+<style>
+  body {font-family: 'Segoe UI', Arial; text-align:center; margin:0; padding:40px; background:#f9fafc; color:#333;}
+  .card {max-width:600px; margin:0 auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);} 
+  h2 {color:#c00; margin-bottom:15px;}
+  p {margin:10px 0; font-size:1rem;}
+  .highlight {font-weight:bold; color:#007bff;}
+  footer {margin-top:20px; font-size:0.9rem; color:#666;}
+  @media (max-width:600px){.card{padding:20px;} h2{font-size:1.3rem;} p{font-size:0.95rem;}}
+</style>
+</head>
+<body>
+  <div class=\"card\">
+    <h2>Layanan Internet Terisolir</h2>
+    <p>Yth. Pelanggan <span class=\"highlight\">${netName}</span>,</p>
+    <p>Mohon maaf, layanan internet Anda saat ini <b>terisolir</b> karena tagihan belum dibayarkan.</p>
+    <p>Tanggal jatuh tempo: <b>${dueDate}</b></p>
+    <p>${customMsg}</p>
+    <p>Silakan segera melakukan pembayaran agar layanan dapat aktif kembali. Terima kasih atas pengertian dan kerja samanya.</p>
+    <footer>&copy; ${new Date().getFullYear()} ${netName}</footer>
+  </div>
+</body>
+</html>`;
+
+      document.getElementById('htmlOutput').value = htmlContent;
+      document.getElementById('previewFrame').srcdoc = htmlContent;
+
+      const script = `/ip firewall address-list add list=isolir_pppoe address=${pppoeNet} comment=\"Isolir PPPoE ${netName}\"\n` +
+        `/ip proxy set enabled=yes port=${proxyPort}\n` +
+        `/ip proxy access add src-address=${pppoeNet} action=deny redirect-to=http://127.0.0.1:${proxyPort}/error.html\n` +
+        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=tcp dst-port=80 action=redirect to-ports=${proxyPort}\n` +
+        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=tcp dst-port=443 action=redirect to-ports=${proxyPort}\n` +
+        `\n# Allow DNS for isolated clients\n` +
+        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=udp dst-port=53 action=redirect to-ports=53\n` +
+        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=tcp dst-port=53 action=redirect to-ports=53`;
+
+      document.getElementById('scriptOutput').value = script;
+    }
+
+    function downloadFile(filename, content){
+      const blob = new Blob([content], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+  </script>
+</body>
+</html>
