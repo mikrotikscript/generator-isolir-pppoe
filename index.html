@@ -1,157 +1,192 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Generator Halaman Isolir PPPoE untuk MikroTik. Buat script otomatis dengan preview halaman isolir responsif dan SEO-friendly." />
-  <meta name="keywords" content="PPPoE, MikroTik, Generator Isolir, Web Proxy, Script MikroTik, Error Page" />
-  <meta name="author" content="PPPoE Tools" />
-  <title>Generator Halaman Isolir PPPoE MikroTik</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Formulir Pendaftaran Internet – Bnetfit Business</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #f4f6f9; color: #333; }
-    header { background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 20px; text-align: center; }
-    header h1 { margin: 0; font-size: 1.8rem; }
-    header p { margin: 5px 0 0; font-size: 1rem; }
-
-    main { max-width: 1000px; margin: 20px auto; padding: 20px; }
-
-    form { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-bottom: 20px; }
-    label { display: block; margin-top: 12px; font-weight: 600; }
-    input, select { width: 100%; padding: 10px; margin-top: 6px; border: 1px solid #ccc; border-radius: 6px; font-size: 0.95rem; }
-    button { margin-top: 15px; padding: 12px 24px; border: none; border-radius: 6px; background: #007bff; color: white; font-size: 1rem; cursor: pointer; transition: background 0.3s ease; }
-    button:hover { background: #0056b3; }
-
-    .output { background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); margin-top: 20px; }
-    textarea { width: 100%; height: 200px; margin-top: 10px; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 0.9rem; }
-    iframe { width: 100%; height: 350px; border: 1px solid #ccc; margin-top: 10px; border-radius: 6px; }
-
-    footer { text-align: center; padding: 15px; background: #f8f9fa; margin-top: 30px; font-size: 0.9rem; color: #666; }
-    footer a { color: #007bff; text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    @media (max-width: 768px) {
-      header h1 { font-size: 1.4rem; }
-      button { width: 100%; }
-      iframe { height: 250px; }
+    :root {
+      --orange: #ff7a00;
+      --bg-dark: #0b0f14;
+    }
+    body {
+      background: linear-gradient(180deg, #0b0f14 0%, #141c24 100%);
+      font-family: 'Inter', sans-serif;
+    }
+    .form-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+    }
+    .g-input {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 12px 14px;
+      border-radius: 10px;
+      color: #f1f1f1;
+      width: 100%;
+      outline: none;
+      appearance: none;
+    }
+    select.g-input {
+      background-color: #1a1f25;
+      color: #fff;
+    }
+    select.g-input option {
+      background-color: #11161c;
+      color: #fff;
+    }
+    select.g-input option:hover {
+      background-color: var(--orange);
+      color: #000;
+    }
+    .g-input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 2px rgba(255,122,0,0.2);
+    }
+    .g-label {
+      font-weight: 600;
+      color: #fff;
+    }
+    .btn-orange {
+      background: linear-gradient(90deg, var(--orange), #ff5a00);
+      color: white;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      width: 100%;
+      transition: transform 0.2s;
+    }
+    .btn-orange:active { transform: scale(0.97); }
+    #successPopup {
+      display: none;
+      background: rgba(0,0,0,0.8);
+      position: fixed;
+      inset: 0;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+    }
+    #successPopup .popup-content {
+      background: #121a21;
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 2rem;
+      border-radius: 16px;
+      text-align: center;
+      color: white;
+      animation: popupIn 0.3s ease;
+    }
+    @keyframes popupIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
   </style>
 </head>
-<body>
-  <header>
-    <h1>Generator Halaman Isolir PPPoE MikroTik</h1>
-    <p>Buat script isolir PPPoE otomatis lengkap dengan halaman isolir responsif</p>
-  </header>
+<body class="flex items-center justify-center min-h-screen px-4 py-8">
+  <div class="form-card w-full max-w-lg rounded-2xl p-6 sm:p-8 shadow-xl">
+    
+    <!-- Logo -->
+    <div class="flex justify-center mb-4">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Orange_logo.svg/2560px-Orange_logo.svg.png" 
+           alt="BuanaNET Logo" class="h-10">
+    </div>
 
-  <main>
-    <form id="generatorForm">
-      <label>Versi ROS
-        <select id="rosVersion">
-          <option value="v6">v6</option>
-          <option value="v7">v7</option>
+    <h1 class="text-2xl font-extrabold text-white mb-2 text-center">Formulir Pendaftaran Internet</h1>
+    <p class="text-gray-400 text-sm mb-6 text-center">PT Jala Lintas Media (Bnetfit Business)</p>
+
+    <form id="bnetfitForm" class="space-y-5" action="https://formsubmit.co/irfann.sugianto@gmail.com" method="POST" enctype="multipart/form-data">
+      <input type="hidden" name="_captcha" value="false">
+
+      <div>
+        <label class="g-label">Nama (Usaha)</label>
+        <input class="g-input mt-2" name="Nama (Usaha)" placeholder="Nama usaha / pemilik" required>
+      </div>
+
+      <div>
+        <label class="g-label">Alamat Instalasi</label>
+        <textarea class="g-input mt-2" name="Alamat instalasi" rows="3" placeholder="Jl. Contoh No. 123, Kota" required></textarea>
+      </div>
+
+      <div>
+        <label class="g-label">No Telp / WA</label>
+        <input class="g-input mt-2" name="No Telp / WA" placeholder="+62" required>
+      </div>
+
+      <div>
+        <label class="g-label">No Alternatif (Opsional)</label>
+        <input class="g-input mt-2" name="No alternatif" placeholder="Opsional">
+      </div>
+
+      <div>
+        <label class="g-label">Email</label>
+        <input type="email" class="g-input mt-2" name="Email" placeholder="email@domain.com" required>
+      </div>
+
+      <div>
+        <label class="g-label">Kapasitas Paket</label>
+        <select class="g-input mt-2" name="Kapasitas" required>
+          <option value="">Pilih kapasitas</option>
+          <option>10 Mbps</option>
+          <option>20 Mbps</option>
+          <option>50 Mbps</option>
+          <option>100 Mbps</option>
         </select>
-      </label>
-      <label>Nama RT/RW Net
-        <input type="text" id="netName" placeholder="Contoh: KARANGGAN HOTSPOT" required />
-      </label>
-      <label>IP Network PPPoE
-        <input type="text" id="pppoeNet" placeholder="172.16.0.1/24" required />
-      </label>
-      <label>Port Web Proxy
-        <input type="number" id="proxyPort" value="8080" />
-      </label>
-      <label>Tanggal Jatuh Tempo
-        <input type="text" id="dueDate" placeholder="20" />
-      </label>
-      <label>Pesan Tambahan
-        <input type="text" id="customMsg" placeholder="Silakan hubungi admin untuk membayar tagihan." />
-      </label>
-      <button type="button" onclick="generateOutput()">Generate Script & Preview</button>
+      </div>
+
+      <div>
+        <label class="g-label">Share Lokasi (Link Google Maps)</label>
+        <input class="g-input mt-2" name="Share lokasi" placeholder="https://goo.gl/maps/..." required>
+      </div>
+
+      <div>
+        <label class="g-label">Instalasi</label>
+        <input class="g-input mt-2" name="Instalasi" value="Disesuaikan" required>
+      </div>
+
+      <div>
+        <label class="g-label">Upload Foto KTP</label>
+        <input type="file" class="g-input mt-2" name="Foto KTP" accept=".jpg,.jpeg,.png,.pdf">
+        <p class="text-xs text-gray-400 mt-1">JPG / PNG / PDF — maks 10 MB</p>
+      </div>
+
+      <div class="pt-2">
+        <button type="submit" class="btn-orange">Kirim Pendaftaran</button>
+      </div>
     </form>
 
-    <div class="output">
-      <h2>Preview Halaman Isolir</h2>
-      <iframe id="previewFrame"></iframe>
-    </div>
+    <p class="text-center text-gray-500 text-xs mt-6">© 2025 PT Jala Lintas Media – Bnetfit Business</p>
+  </div>
 
-    <div class="output">
-      <h2>Script Rule DNS </h2>
-      <textarea id="scriptOutput" readonly></textarea>
-      <button onclick="downloadFile('isolir_script.rsc', document.getElementById('scriptOutput').value)">Download Script</button>
+  <!-- Popup Sukses -->
+  <div id="successPopup" class="flex">
+    <div class="popup-content">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-400 mx-auto mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+      <h2 class="text-xl font-bold mb-2">Pendaftaran Berhasil!</h2>
+      <p class="text-gray-400 mb-4">Terima kasih, data Anda telah terkirim.</p>
+      <button onclick="closePopup()" class="btn-orange">Tutup</button>
     </div>
-
-    <div class="output">
-      <h2>File error.html</h2>
-      <textarea id="htmlOutput" readonly></textarea>
-      <button onclick="downloadFile('error.html', document.getElementById('htmlOutput').value)">Download error.html</button>
-    </div>
-  </main>
-
-  <footer>
-    <p>&copy; 2025 Generator Isolir PPPoE. Dibuat untuk ISP & RT/RW Net | <a href="#">Tutorial</a></p>
-  </footer>
+  </div>
 
   <script>
-    function generateOutput(){
-      const rosVersion = document.getElementById('rosVersion').value;
-      const netName = document.getElementById('netName').value;
-      const pppoeNet = document.getElementById('pppoeNet').value;
-      const proxyPort = document.getElementById('proxyPort').value;
-      const dueDate = document.getElementById('dueDate').value;
-      const customMsg = document.getElementById('customMsg').value;
+    const form = document.getElementById('bnetfitForm');
+    const popup = document.getElementById('successPopup');
 
-      const htmlContent = `<!DOCTYPE html>
-<html lang=\"id\">
-<head>
-<meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">
-<title>Internet Terisolir</title>
-<style>
-  body {font-family: 'Segoe UI', Arial; text-align:center; margin:0; padding:40px; background:#f9fafc; color:#333;}
-  .card {max-width:600px; margin:0 auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 4px 12px rgba(0,0,0,0.1);} 
-  h2 {color:#c00; margin-bottom:15px;}
-  p {margin:10px 0; font-size:1rem;}
-  .highlight {font-weight:bold; color:#007bff;}
-  footer {margin-top:20px; font-size:0.9rem; color:#666;}
-  @media (max-width:600px){.card{padding:20px;} h2{font-size:1.3rem;} p{font-size:0.95rem;}}
-</style>
-</head>
-<body>
-  <div class=\"card\">
-    <h2>Layanan Internet Terisolir</h2>
-    <p>Yth. Pelanggan <span class=\"highlight\">${netName}</span>,</p>
-    <p>Mohon maaf, layanan internet Anda saat ini <b>terisolir</b> karena tagihan belum dibayarkan.</p>
-    <p>Tanggal jatuh tempo: <b>${dueDate}</b></p>
-    <p>${customMsg}</p>
-    <p>Silakan segera melakukan pembayaran agar layanan dapat aktif kembali. Terima kasih atas pengertian dan kerja samanya.</p>
-    <footer>&copy; ${new Date().getFullYear()} ${netName}</footer>
-  </div>
-</body>
-</html>`;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      fetch(form.action, { method: 'POST', body: new FormData(form) })
+        .then(() => {
+          form.reset();
+          popup.style.display = 'flex';
+        })
+        .catch(() => alert('Terjadi kesalahan. Coba lagi.'));
+    });
 
-      document.getElementById('htmlOutput').value = htmlContent;
-      document.getElementById('previewFrame').srcdoc = htmlContent;
-
-      const script = `/ip firewall address-list add list=isolir_pppoe address=${pppoeNet} comment=\"Isolir PPPoE ${netName}\"\n` +
-        `/ip proxy set enabled=yes port=${proxyPort}\n` +
-        `/ip proxy access add src-address=${pppoeNet} action=deny redirect-to=http://127.0.0.1:${proxyPort}/error.html\n` +
-        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=tcp dst-port=80 action=redirect to-ports=${proxyPort}\n` +
-        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=tcp dst-port=443 action=redirect to-ports=${proxyPort}\n` +
-        `\n# Allow DNS for isolated clients\n` +
-        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=udp dst-port=53 action=redirect to-ports=53\n` +
-        `/ip firewall nat add chain=dstnat src-address=${pppoeNet} protocol=tcp dst-port=53 action=redirect to-ports=53`;
-
-      document.getElementById('scriptOutput').value = script;
-    }
-
-    function downloadFile(filename, content){
-      const blob = new Blob([content], { type: 'text/plain' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = filename;
-      a.click();
-      URL.revokeObjectURL(url);
+    function closePopup() {
+      popup.style.display = 'none';
     }
   </script>
 </body>
 </html>
-
